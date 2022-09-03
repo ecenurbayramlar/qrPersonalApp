@@ -1,0 +1,48 @@
+﻿
+
+@{
+    ViewData["Title"] = "Anasayfa";
+}
+
+<div class="container-sm" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+    <div id="qr-reader" style="width: 800px; background-color: rgb(64, 112, 136); position: relative;" class="container-sm"></div>
+    <button id="btnSearch" onclick="location.href='/Giris/SaveTime/0'" type="button" style="display:none;"></button>
+</div>
+
+
+<script src="~/html5-qrcode.min.js"></script>
+<script>function docReady(fn) {
+        // see if DOM is already available
+        if (document.readyState === "complete" ||
+            document.readyState === "interactive") {
+            // call on next available tick
+            setTimeout(fn, 1);
+        } else {
+            document.addEventListener("DOMContentLoaded", fn);
+        }
+    }
+
+    docReady(function () {
+        var lastResult = 0;
+        function onScanSuccess(decodedText, decodedResult) {
+            if (decodedText !== lastResult) {
+                lastResult = decodedText
+                document.getElementById("btnSearch").href = location.href = '/Giris/SaveTime/' + decodedText;
+                Swal.fire(
+                    'Tarama Basarılı',
+                    decodedText,
+                    'success'
+                )
+                document.getElementById("btnSearch").click();
+
+            }
+        }
+
+        var html5QrcodeScanner = new Html5QrcodeScanner(
+            "qr-reader", {
+            fps: 10,
+            qrbox: 400
+        });
+        html5QrcodeScanner.render(onScanSuccess);
+    });</script>
+

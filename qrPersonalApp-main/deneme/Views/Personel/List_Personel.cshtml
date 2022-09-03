@@ -1,0 +1,59 @@
+﻿@model deneme.Models.PersonelModel
+@{
+    ViewData["Title"] = "Ekle";
+}
+
+
+
+<div class="container" style="padding: 1rem; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 75%; max-width: 75%; height: 550px;">
+
+    <input type="text" id="search" onkeyup="search()" placeholder="Search for names.." title="Type in a name"
+           style="width: 100%; font-size: 16px; padding: 12px 20px 12px 40px; border: 1px solid #ddd; margin-bottom: 6px;">
+
+    <table id="myTable" class="table-scroll small-first-col" style="display: block; empty-cells: show; border-spacing: 0; border: 1px solid;">
+        <thead style="background-color: #f1f1f1; position: relative; display: block; width: 100%; overflow-y: scroll;">
+            <tr style="width: 100%; display: flex;">
+                <th style="flex-basis: 100%; flex-grow: 2; display: block; padding: 1rem; text-align: center;">Ad</th>
+                <th style="flex-basis: 100%; flex-grow: 2; display: block; padding: 1rem; text-align: center;">Soyad</th>
+                <th style="flex-basis: 100%; flex-grow: 2; display: block; padding: 1rem; text-align: center;">TC</th>
+                <th style="flex-basis: 100%; flex-grow: 2; display: block; padding: 1rem; text-align: center;">Tel</th>
+                <th style="flex-basis: 100%; flex-grow: 2; display: block; padding: 1rem; text-align: center;">QR Kod</th>
+                <th style="flex-basis: 100%; flex-grow: 2; display: block; padding: 1rem; text-align: center;">Sil</th>
+            </tr>
+        </thead>
+        <tbody id="myTable_body" class="body-half-screen" style="display: block; position: relative; width: 100%; overflow-y: scroll; border-top: 1px solid rgba(0,0,0,0.2); max-height: 550px; background-color: #343a40; ">
+            @foreach (var i in Model.personel)
+            {
+                foreach (var a in Model.qr)
+                {
+                    if (i.id == a.perId)
+                    {
+                        <tr style="width: 100%; display: flex;">
+                            <td style="flex-basis: 100%; flex-grow: 2; display: block; padding: 1rem; text-align: center; color: white; vertical-align: middle; height: auto; ">@i.name</td>
+                            <td style="flex-basis: 100%; flex-grow: 2; display: block; padding: 1rem; text-align: center; color: white; vertical-align: middle; height: auto; ">@i.lastName</td>
+                            <td style="flex-basis: 100%; flex-grow: 2; display: block; padding: 1rem; text-align: center; color: white; vertical-align: middle; height: auto; ">@i.tc</td>
+                            <td style="flex-basis: 100%; flex-grow: 2; display: block; padding: 1rem; text-align: center; color: white; vertical-align: middle; height: auto; ">@i.tel</td>
+                            <td style="flex-basis: 100%; flex-grow: 2; display: block; padding: 1rem; text-align: center; color: white; vertical-align: middle; height: auto; "><img src="@String.Format("data:image/png;base64,{0}",Convert.ToBase64String(a.qrByte))" style="width: 40px; height: 40px;" /></td>
+                            <td style="flex-basis:100% ; flex-grow: 2; display: block; padding: 1rem; text-align: center; color: white; vertical-align: middle; height: auto; "><a class="btn btn-danger" style="padding: 0.3rem 1rem; " href="/Personel/Delete_Personal/@i.id">Sil</a></td>
+                        </tr>
+                    }
+                }
+
+            }
+        </tbody>
+    </table>
+</div>
+
+
+
+<script>function search() {
+        $("tr").each(function (index, value) {
+            if (index > 0 && !$(this).find("td")[0].innerText.toUpperCase().includes($("#search").val().toUpperCase())) {
+                $(this).attr("hidden", true);
+            } else {
+                $(this).removeAttr("hidden");
+            }
+        })
+    }
+    </script>
+

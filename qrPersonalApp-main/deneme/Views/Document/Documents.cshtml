@@ -1,0 +1,100 @@
+﻿@model deneme.Models.PersonelModel
+@addTagHelper*, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "Dokumanlar";
+}
+
+<script type="text/javascript" src='https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.3.min.js'></script>
+<script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/js/bootstrap.min.js'></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css" type="text/css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js" type="text/javascript"></script>
+
+
+<div class="container-sm" style="text-align: center; position: fixed; top: 25%; left: 50%; transform: translate(-50%, -50%);">
+    @using (Html.BeginForm("Documents", "Document", FormMethod.Post))
+    {
+        <div class="d-flex justify-content-center align-items-center">
+            @if (@Model != null)
+            {
+                <div>
+                    <select class="form-select" style="width: 130%; font-weight:bold; padding:0.5rem 1rem;" name="selectedPersonal">
+                        <option value="0" selected>Lütfen bir personel seçin..</option>
+                        @foreach (var item in Model.personel)
+                        {
+                            <option value="@item.id">@item.name @item.lastName</option>
+                        }
+                    </select>
+                </div>
+            }
+        <div class="d-flex justify-content-center align-items-center" style="margin-left:10rem;">
+            <input type="text" id="txtSelectedDate" name="SelectedDate" style="margin-left: 0.5rem; padding: 0.5rem;" placeholder="Lütfen bir tarih seçiniz.." autocomplete="off" />
+            <input type="text" id="txtSelectedDate2" name="SelectedDate2" style="margin-left: 5rem; padding: 0.5rem;" placeholder="Lütfen bir tarih seçiniz.." autocomplete="off" />
+            <input type="submit" value="Ara" class="btn btn-warning" style="padding:0.5rem 1.3rem; color:white;font-weight:bold; margin-left:10rem;" />
+        </div>
+        </div>
+
+    }
+</div>
+
+
+
+<script type="text/javascript">
+    $(function () {
+        $('#txtSelectedDate').datepicker({
+            changeMonth: true,
+            changeYear: true,
+            format: "yyyy-mm-dd",
+            language: "tr"
+        });
+        $('#txtSelectedDate2').datepicker({
+            changeMonth: true,
+            changeYear: true,
+            format: "yyyy-mm-dd",
+            language: "tr"
+        });
+    });
+</script>
+
+
+
+@if (ViewBag.date != null)
+{
+    <div class="container" style="padding: 1rem; position: fixed; top: 70%; left: 50%; transform: translate(-50%, -50%); width: 75%; max-width: 75%; height: 550px;">
+        <table id="myTable" class="table-scroll small-first-col" style="display: block; empty-cells: show; border-spacing: 0; border: 1px solid;">
+            <thead style="background-color: #f1f1f1; position: relative; display: block; width: 100%; overflow-y: scroll;">
+                <tr style="width: 100%; display: flex;">
+                    <th style="flex-basis: 100%; flex-grow: 2; display: block; padding: 1rem; text-align: center;">Ad</th>
+                    <th style="flex-basis: 100%; flex-grow: 2; display: block; padding: 1rem; text-align: center;">Soyad</th>
+                    <th style="flex-basis: 100%; flex-grow: 2; display: block; padding: 1rem; text-align: center;">Giriş Saati</th>
+                    <th style="flex-basis: 100%; flex-grow: 2; display: block; padding: 1rem; text-align: center;">Çıkış Saati</th>
+                    <th style="flex-basis: 100%; flex-grow: 2; display: block; padding: 1rem; text-align: center;">Çalışma Süresi</th>
+                    <th style="flex-basis: 100%; flex-grow: 2; display: block; padding: 1rem; text-align: center;">Maaş</th>
+
+                </tr>
+            </thead>
+            <tbody id="myTable_body" class="body-half-screen" style="display: block; position: relative; width: 100%; overflow-y: scroll; border-top: 1px solid rgba(0,0,0,0.2); max-height: 550px; background-color: #343a40; ">
+
+                @foreach (var item in Model.ali)
+                {
+                    <tr style="width: 100%; display: flex;">
+                        <td style="flex-basis:100% ; flex-grow: 2; display: block; padding: 1rem; text-align: center; color: white; vertical-align: middle; height: auto; font-weight:bold; ">@item.name</td>
+                        <td style="flex-basis: 100%; flex-grow: 2; display: block; padding: 1rem; text-align: center; color: white; vertical-align: middle; height: auto; font-weight: bold;">@item.lastName</td>
+                        <td style="flex-basis: 100%; flex-grow: 2; display: block; padding: 1rem; text-align: center; color: white; vertical-align: middle; height: auto; color: green; font-weight: bold;">@item.giris</td>
+                        <td style="flex-basis: 100%; flex-grow: 2; display: block; padding: 1rem; text-align: center; color: white; vertical-align: middle; height: auto; color: red; font-weight: bold;">@item.cikis</td>
+                        <td style="flex-basis: 100%; flex-grow: 2; display: block; padding: 1rem; text-align: center; color: white; vertical-align: middle; height: auto; color: bisque; font-weight: bold;">@item.sure</td>
+                        <td style="flex-basis: 100%; flex-grow: 2; display: block; padding: 1rem; text-align: center; color: white; vertical-align: middle; height: auto; color: gold; font-weight: bold;">@item.maas</td>
+                    </tr>
+                }
+
+
+
+
+            </tbody>
+        </table>
+    </div>
+
+ }
+
+
+
